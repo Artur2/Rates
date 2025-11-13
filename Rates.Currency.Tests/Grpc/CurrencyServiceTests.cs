@@ -83,6 +83,52 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     }
 
     [Fact]
+    public async Task Should_Not_Add_Duplicate_Favorites()
+    {
+        ConfigureFactory(svc => { });
+        MigrateUp();
+
+        var userName = Faker.Random.String2(10);
+        var tokenService = Factory.Services.GetRequiredService<ITokenService>();
+        var (token, _, _) = await tokenService.GenerateToken(userName);
+        var dataContext = Factory.Services.GetRequiredService<CurrencyDataContext>();
+        var client = CreateClient();
+
+        var name = Faker.Random.String2(10);
+        var rate = Faker.Random.Decimal();
+        await dataContext.Currencies.InsertWithIdentityAsync(() => new Domain.Entities.Currency()
+        {
+            Name = name,
+            Rate = rate,
+        });
+
+        await dataContext.Users.InsertWithIdentityAsync(() => new Domain.Entities.User()
+        {
+            Name = userName,
+            PasswordHash = new byte[] {0, 0, 0}
+        });
+
+        await client.AddFavoriteAsync(new AddFavoriteRequest()
+        {
+            Name = name
+        }, new Metadata()
+        {
+            {ITokenService.TokenKey, token}
+        });
+
+        await Assert.ThrowsAsync<RpcException>(async () =>
+        {
+            await client.AddFavoriteAsync(new AddFavoriteRequest()
+            {
+                Name = name
+            }, new Metadata()
+            {
+                {ITokenService.TokenKey, token}
+            });
+        });
+    }
+
+    [Fact]
     public async Task Should_Remove_Favorite_Currency()
     {
         ConfigureFactory(svc => { });

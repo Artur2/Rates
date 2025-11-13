@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option csharp_namespace = "Rates.Currency";
+
+package currency;
+
+service CurrencyService {
+  rpc GetFavorites (GetFavoritesRequest) returns (GetFavoritesResponse);
+  rpc AddFavorite (AddFavoriteRequest) returns (AddFavoriteResponse);
+  rpc RemoveFavorite (RemoveFavoriteRequest) returns (RemoveFavoriteResponse);
+  rpc ListCurrencies (ListCurrenciesRequest) returns (ListCurrenciesResponse);
+}
+
+message GetFavoritesRequest {
+}
+
+message GetFavoritesResponse {
+  repeated GetFavoritesEntry entries = 1;
+}
+
+message GetFavoritesEntry {
+  string name = 1;
+  double rate = 2;
+}
+
+message AddFavoriteRequest {
+  string name = 1;
+}
+
+message AddFavoriteResponse {
+}
+
+message RemoveFavoriteRequest {
+  string name = 1;
+}
+
+message RemoveFavoriteResponse {
+}
+
+message ListCurrenciesRequest {
+}
+
+message ListCurrenciesResponse {
+  repeated string entries = 1;
+}

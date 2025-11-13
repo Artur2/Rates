@@ -1,0 +1,43 @@
+using Bogus;
+using FluentMigrator.Runner;
+using Grpc.Net.Client;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Rates.Currency;
+using Rates.Migration.Shared;
+using Xunit;
+
+namespace Rates.Users.Tests;
+
+public class TestClassBase(WebApplicationFactory<Startup> factory) : IClassFixture<WebApplicationFactory<Startup>>
+{
+    private WebApplicationFactory<Startup> _factory = factory;
+
+    public WebApplicationFactory<Startup> Factory => _factory;
+
+    public Faker Faker = new Faker();
+
+    protected void ConfigureFactory(Action<IServiceCollection> configure)
+    {
+        _factory = new WebApplicationFactory<Startup>()
+            .WithWebHostBuilder(cfg =>
+            {
+                Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
+                cfg.ConfigureServices(configure);
+            });
+    }
+
+    protected void MigrateUp()
+    {
+        var migrationRunner = Factory.Services.GetRequiredService<IMigrationRunner>();
+        migrationRunner.MigrateUp();
+    }
+
+    protected CurrencyService.CurrencyServiceClient CreateClient()
+    {
+        var options = new GrpcChannelOptions {HttpHandler = Factory.Server.CreateHandler()};
+        var channel = GrpcChannel.ForAddress(Factory.Server.BaseAddress, options);
+        return new CurrencyService.CurrencyServiceClient(channel);
+    }
+}

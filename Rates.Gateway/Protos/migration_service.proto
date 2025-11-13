@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option csharp_namespace = "Rates.Migration";
+
+package migration;
+
+service MigrationService {
+  rpc Migrate (MigrateRequest) returns (MigrateResponse);
+}
+
+message MigrateRequest {
+}
+
+message MigrateResponse {
+}

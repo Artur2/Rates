@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option csharp_namespace = "Rates.Users";
+
+package users;
+
+service UsersService {
+  rpc Register (RegisterRequest) returns (RegisterReply);
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+  rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+}
+
+message RegisterRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message RegisterReply {
+}
+
+message AuthenticateRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message AuthenticateResponse {
+  string token = 1;
+  string refresh_token = 2;
+}
+
+message RevokeTokenRequest {
+  string token = 1;
+}
+
+message RevokeTokenResponse {
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  string token = 1;
+  string refresh_token = 2;
+}

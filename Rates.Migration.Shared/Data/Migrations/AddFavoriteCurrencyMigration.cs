@@ -13,6 +13,10 @@ public class AddFavoriteCurrencyMigration : FluentMigrator.Migration
                 nameof(FavoriteCurrency.CurrencyId), nameof(Currency), nameof(Currency.Id))
             .WithColumn(nameof(FavoriteCurrency.UserId)).AsInt32().ForeignKey(
                 nameof(FavoriteCurrency.UserId), nameof(User), nameof(User.Id));
+
+        Create.UniqueConstraint($"{nameof(FavoriteCurrency.UserId)}-{nameof(FavoriteCurrency.CurrencyId)}")
+            .OnTable(nameof(FavoriteCurrency))
+            .Columns(nameof(FavoriteCurrency.UserId), nameof(FavoriteCurrency.CurrencyId));
     }
 
     public override void Down()

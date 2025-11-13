@@ -52,6 +52,11 @@ public class CurrencyService(CurrencyDataContext currencyDataContext, ITokenServ
     public override async Task<RemoveFavoriteResponse> RemoveFavorite(RemoveFavoriteRequest request,
         ServerCallContext context)
     {
+        if (string.IsNullOrWhiteSpace(request.Name))
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Name is required"));
+        }
+
         var currency = await currencyDataContext.Currencies.SingleOrDefaultAsync(x => x.Name == request.Name);
         if (currency == null)
         {

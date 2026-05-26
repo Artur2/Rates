@@ -1,4 +1,6 @@
-### Rates ###
+### Rates ### 
+
+[![.NET](https://github.com/Artur2/Rates/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Artur2/Rates/actions/workflows/dotnet.yml)
 
 Проект для получения данных валют
 

@@ -7,7 +7,11 @@ public class AddOSSPEnableMigration : FluentMigrator.Migration
 {
     public override void Up()
     {
-        Execute.Sql("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";");
+        var isTestEnv = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Test";
+        if (!isTestEnv)
+        {
+            Execute.Sql("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";");
+        }
     }
 
     public override void Down()

@@ -15,6 +15,8 @@
         <PackageReference Include="FluentMigrator" Version="7.1.0"/>
         <PackageReference Include="FluentMigrator.Runner" Version="7.1.0"/>
         <PackageReference Include="FluentMigrator.Runner.Postgres" Version="7.1.0"/>
+        <PackageReference Include="FluentMigrator.Runner.Sqlite" Version="7.1.0"/>
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.16" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
         <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.64.0" />
     </ItemGroup>

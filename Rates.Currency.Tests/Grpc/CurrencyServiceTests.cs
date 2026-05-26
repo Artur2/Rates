@@ -14,7 +14,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [Fact]
     public async Task Should_List_Currencies()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var tokenService = Factory.Services.GetRequiredService<ITokenService>();
@@ -42,7 +42,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [Fact]
     public async Task Should_Add_Favorite_Currency()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var userName = Faker.Random.String2(10);
@@ -85,7 +85,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [Fact]
     public async Task Should_Not_Add_Duplicate_Favorites()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var userName = Faker.Random.String2(10);
@@ -131,7 +131,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [Fact]
     public async Task Should_Remove_Favorite_Currency()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var userName = Faker.Random.String2(10);
@@ -192,7 +192,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [InlineData("")]
     public async Task AddFavorite_Should_Respect_Name(string name)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var client = CreateClient();
@@ -216,7 +216,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
     [InlineData("")]
     public async Task RemoveFavorite_Should_Respect_Name(string name)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
 
         var client = CreateClient();

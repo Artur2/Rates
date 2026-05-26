@@ -2,12 +2,13 @@ using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.Mapping;
 using Rates.Domain.Entities;
+using Rates.Shared.Data;
 
 namespace Rates.Users.Data;
 
 public class UsersDataContext : DataConnection
 {
-    public UsersDataContext()
+    public UsersDataContext(IDataOptionsProvider dataOptionsProvider) : base(dataOptionsProvider.GetDataOptions())
     {
         InlineParameters = true;
         var mappingScheme = new FluentMappingBuilder(MappingSchema);

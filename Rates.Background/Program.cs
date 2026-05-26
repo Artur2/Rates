@@ -44,7 +44,7 @@ public class Program
 
         builder.Services.AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
         builder.Services.AddSingleton<FetchCurrencyJob>();
-        DataConnection.DefaultSettings = new PosgresConnectionSettings(connectionString);
+        builder.Services.AddTransient<IDataOptionsProvider, DefaultDataOptions>();
         builder.Services.AddTransient<BackgroundDataContext>();
 
         var app = builder.Build();

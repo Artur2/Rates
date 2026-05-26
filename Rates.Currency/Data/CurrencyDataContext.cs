@@ -1,12 +1,13 @@
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.Mapping;
+using Rates.Shared.Data;
 
 namespace Rates.Currency.Data;
 
 public class CurrencyDataContext : DataConnection
 {
-    public CurrencyDataContext()
+    public CurrencyDataContext(IDataOptionsProvider dataOptionsProvider) : base(dataOptionsProvider.GetDataOptions())
     {
         InlineParameters = true;
         var mappingScheme = new FluentMappingBuilder(MappingSchema);
@@ -17,7 +18,7 @@ public class CurrencyDataContext : DataConnection
 
         mappingScheme.Entity<Domain.Entities.FavoriteCurrency>()
             .HasTableName(nameof(Domain.Entities.FavoriteCurrency));
-        
+
         mappingScheme.Entity<Domain.Entities.User>()
             .HasTableName(nameof(Domain.Entities.User))
             .HasPrimaryKey(x => x.Id)

@@ -17,13 +17,18 @@ public class TestClassBase(WebApplicationFactory<Startup> factory) : IClassFixtu
     
     public Faker Faker = new Faker();
 
-    protected void ConfigureFactory(Action<IServiceCollection> configure)
+    protected void ConfigureFactory(Action<IServiceCollection>? configure = null)
     {
         _factory = new WebApplicationFactory<Startup>()
             .WithWebHostBuilder(cfg =>
             {
                 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
-                cfg.ConfigureServices(configure);
+                if (configure != null)
+                {
+                    cfg.ConfigureServices(configure);
+                }
+
+                cfg.UseSetting("ConnectionStrings:Default", "Data Source=Application.db;Cache=Shared");
             });
     }
 

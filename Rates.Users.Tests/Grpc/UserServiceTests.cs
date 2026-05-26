@@ -13,7 +13,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [Fact]
     public async Task Should_Successfully_Register()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
         var name = Faker.Random.String2(10);
@@ -35,7 +35,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [Fact]
     public async Task Should_Authenticate_Successfully()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
         var name = Faker.Random.String2(10);
@@ -66,7 +66,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [Fact]
     public async Task Should_Successfully_Revoke_Token()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
         var name = Faker.Random.String2(10);
@@ -113,7 +113,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [Fact]
     public async Task Should_Not_Register_Duplicates()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
         var name = Faker.Random.String2(10);
@@ -143,7 +143,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [Fact]
     public async Task Should_Refresh_Token()
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
         var name = Faker.Random.String2(10);
@@ -190,7 +190,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData("  ")]
     public async Task AuthenticateRequest_Should_Respect_Name(string name)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 
@@ -214,7 +214,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData("  ")]
     public async Task AuthenticateRequest_Should_Respect_Password(string password)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 
@@ -238,7 +238,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData("  ")]
     public async Task RegisterRequest_Should_Respect_Name(string name)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 
@@ -262,7 +262,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData("  ")]
     public async Task RegisterRequest_Should_Respect_Password(string password)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 
@@ -286,7 +286,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData(" ")]
     public async Task RevokeToken_Should_Respect_Token(string token)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 
@@ -310,7 +310,7 @@ public class UserServiceTests(WebApplicationFactory<Startup> factory) : TestClas
     [InlineData(" ")]
     public async Task RefreshToken_Should_Respect_Token(string token)
     {
-        ConfigureFactory(svc => { });
+        ConfigureFactory();
         MigrateUp();
         var userService = CreateClient();
 

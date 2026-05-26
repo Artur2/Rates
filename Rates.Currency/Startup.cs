@@ -4,6 +4,7 @@ using Rates.Currency.Data;
 using Rates.Migration.Shared;
 using Rates.Shared;
 using Rates.Shared.Data;
+using Rates.Shared.Extensions;
 using Rates.Shared.Grpc;
 
 namespace Rates.Currency;
@@ -26,22 +27,10 @@ public class Startup
         });
         services.AddGrpcReflection();
 
-        var connectionString = Configuration.GetConnectionString("Default");
-        DataConnection.DefaultSettings = new PosgresConnectionSettings(connectionString);
+        services.AddTransient<IDataOptionsProvider, DefaultDataOptions>();
         services.AddScoped<CurrencyDataContext>();
         services.AddSharedServices();
-
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Test")
-        {
-            services.AddFluentMigratorCore()
-                .ConfigureRunner(runner =>
-                {
-                    runner.AddPostgres()
-                        .WithGlobalConnectionString(connectionString)
-                        .ScanIn(typeof(MarkingClass).Assembly).For.All();
-                })
-                .AddLogging(lb => lb.AddFluentMigratorConsole());
-        }
+        services.AddMigration(Configuration);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

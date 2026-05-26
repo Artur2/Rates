@@ -17,6 +17,9 @@
       <None Update="Data\Migrations\Assets\quartz_scheme.sql">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Data\Migrations\Assets\sqlite_quartz_scheme.sql">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>

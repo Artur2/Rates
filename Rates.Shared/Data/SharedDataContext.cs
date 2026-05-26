@@ -6,7 +6,7 @@ namespace Rates.Shared.Data;
 
 public class SharedDataContext : DataConnection
 {
-    public SharedDataContext()
+    public SharedDataContext(IDataOptionsProvider dataOptionsProvider) : base(dataOptionsProvider.GetDataOptions())
     {
         InlineParameters = true;
         var mappingScheme = new FluentMappingBuilder(MappingSchema);
@@ -18,6 +18,6 @@ public class SharedDataContext : DataConnection
 
         mappingScheme.Build();
     }
-    
+
     public ITable<Domain.Entities.LoginItem> LoginItems => this.GetTable<Domain.Entities.LoginItem>();
 }

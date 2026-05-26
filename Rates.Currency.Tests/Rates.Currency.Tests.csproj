@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="35.6.5" />
+        <PackageReference Include="Bogus" Version="35.6.5"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.11"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
         <PackageReference Include="Moq" Version="4.20.72"/>
@@ -17,23 +17,23 @@
         <PackageReference Include="FluentMigrator.Runner" Version="7.1.0"/>
         <PackageReference Include="FluentMigrator.Runner.Postgres" Version="7.1.0"/>
         <PackageReference Include="FluentMigrator.Runner.Sqlite" Version="7.1.0"/>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.16" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
-        <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.64.0" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.16"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.64.0"/>
+        <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.64.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Rates.Currency\Rates.Currency.csproj" />
+        <ProjectReference Include="..\Rates.Currency\Rates.Currency.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Protobuf Include="Protos\currency_service.proto" Service="Client"/>
+        <Protobuf Include="..\Rates.Currency\Protos\currency_service.proto" Service="Client"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="key">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Include="..\Rates.Users\key">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

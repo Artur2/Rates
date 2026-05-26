@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Protobuf Include="Protos\users_service.proto" Service="Client"/>
+      <Protobuf Include="..\Rates.Users\Protos\users_service.proto" Service="Client"/>
     </ItemGroup>
 
 </Project>

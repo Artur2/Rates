@@ -23,7 +23,7 @@ public class UsersService(Users.UsersService.UsersServiceClient client)
 
     public async Task Register(string username, string password)
     {
-        var response = await client.RegisterAsync(new RegisterRequest()
+        await client.RegisterAsync(new RegisterRequest()
         {
             Name = username,
             Password = password

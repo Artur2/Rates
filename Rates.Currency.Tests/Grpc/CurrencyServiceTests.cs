@@ -59,7 +59,7 @@ public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : Test
             Rate = rate,
         });
 
-        var id = await dataContext.Users.InsertWithIdentityAsync(() => new Domain.Entities.User()
+        await dataContext.Users.InsertWithIdentityAsync(() => new Domain.Entities.User()
         {
             Name = userName,
             PasswordHash = new byte[] {0, 0, 0}

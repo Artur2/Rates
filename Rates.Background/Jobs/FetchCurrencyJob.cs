@@ -3,24 +3,25 @@ using System.Xml;
 using LinqToDB;
 using Quartz;
 using Rates.Background.Data;
+using Rates.Background.Services;
 
 namespace Rates.Background.Jobs;
 
 [DisallowConcurrentExecution]
-public class FetchCurrencyJob(IHttpClientFactory httpClientFactory, BackgroundDataContext dataContext) : IJob
+public class FetchCurrencyJob(IHttpClientFactory httpClientFactory, IBackgroundService backgroundService) : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
         var client = httpClientFactory.CreateClient("cbr");
         await using var stream = await client.GetStreamAsync("scripts/XML_daily.asp");
         var xmlReader = XmlReader.Create(stream);
-        xmlReader.MoveToContent();
+        await xmlReader.MoveToContentAsync();
         var charCode = string.Empty;
         var enteredCharCode = false;
         var enteredValue = false;
         var items = new List<(string charCode, double value)>();
 
-        while (xmlReader.Read())
+        while (await xmlReader.ReadAsync())
         {
             // Помечаем как вошли в тег
             if (xmlReader is {NodeType: XmlNodeType.Element, Name: "CharCode"})
@@ -49,13 +50,6 @@ public class FetchCurrencyJob(IHttpClientFactory httpClientFactory, BackgroundDa
             }
         }
 
-        var itemsAsQueryable = items.AsQueryable(dataContext);
-
-        await dataContext.Currencies.LeftJoin(itemsAsQueryable,
-                (currency, newData) => currency.Name == newData.charCode,
-                (currency, newData) => new {currency, newData})
-            .AsUpdatable()
-            .Set(x => x.currency.Rate, p => (decimal) p.newData.value)
-            .UpdateAsync();
+        await backgroundService.ProcessNewRecords(items.ToArray(), context.CancellationToken);
     }
 }

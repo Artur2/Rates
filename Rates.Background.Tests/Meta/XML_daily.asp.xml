@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<ValCurs Date="05.06.2026" name="Foreign Currency Market">
+    <Valute ID="R01010">
+        <NumCode>036</NumCode>
+        <CharCode>AUD</CharCode>
+        <Nominal>1</Nominal>
+        <Name>Австралийский Доллар</Name>
+        <Value>52,9802</Value>
+        <VunitRate>52,9802</VunitRate>
+    </Valute>
+    <Valute ID="R01020A">
+        <NumCode>944</NumCode>
+        <CharCode>AZN</CharCode>
+        <Nominal>1</Nominal>
+        <Name>Азербайджанский Манат</Name>
+        <Value>43,7033</Value>
+        <VunitRate>43,7033</VunitRate>
+    </Valute>
+</ValCurs>

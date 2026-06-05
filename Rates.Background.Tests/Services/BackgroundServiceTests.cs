@@ -2,6 +2,7 @@ using LinqToDB;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Rates.Background.Data;
+using Rates.Background.Models;
 using Rates.Background.Services;
 using Rates.Domain.Entities;
 using Xunit;
@@ -26,7 +27,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 2
         });
 
-        await service.ProcessNewRecords([("TEST", 3d)], default);
+        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], default);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "TEST");
         Assert.NotNull(record);
@@ -49,7 +50,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 2
         });
 
-        await service.ProcessNewRecords([("TEST", 3d)], default);
+        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], default);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "RUB");
         Assert.NotNull(record);
@@ -78,10 +79,24 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 20
         });
 
-        await service.ProcessNewRecords([("USD", 30d)], default);
+        await service.ProcessNewRecords([new CbrEntry("USD", 30d)], default);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "USD");
         Assert.NotNull(record);
         Assert.Equal(30m, record.Rate);
+    }
+
+    [Fact]
+    public async Task Should_Correctly_Parse_Input_Stream()
+    {
+        await using var fs = new FileStream("Meta/XML_daily.asp.xml", FileMode.Open);
+        
+        ConfigureFactory();
+        MigrateUp();
+
+        var service = Factory.Services.GetRequiredService<IBackgroundService>();
+        var items = await service.ParseCbrRecords(fs, default);
+        Assert.NotNull(items);
+        Assert.Equal(2, items.Length);
     }
 }

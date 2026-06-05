@@ -24,4 +24,10 @@
       <ProjectReference Include="..\Rates.Background\Rates.Background.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="Meta\XML_daily.asp.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>

@@ -55,4 +55,33 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
         Assert.NotNull(record);
         Assert.Equal(2m, record.Rate);
     }
+
+    [Fact]
+    public async Task One_Record_Should_Be_Updated_Other_Skipped()
+    {
+        ConfigureFactory();
+        MigrateUp();
+
+        var service = Factory.Services.GetRequiredService<IBackgroundService>();
+        var dataContext = Factory.Services.GetRequiredService<BackgroundDataContext>();
+        await dataContext.Currencies.DeleteAsync();
+
+        await dataContext.Currencies.InsertAsync(() => new Currency
+        {
+            Name = "RUB",
+            Rate = 2
+        });
+
+        await dataContext.Currencies.InsertAsync(() => new Currency
+        {
+            Name = "USD",
+            Rate = 20
+        });
+
+        await service.ProcessNewRecords([("USD", 30d)], default);
+
+        var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "USD");
+        Assert.NotNull(record);
+        Assert.Equal(30m, record.Rate);
+    }
 }

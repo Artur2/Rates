@@ -32,4 +32,27 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
         Assert.NotNull(record);
         Assert.Equal(3m, record.Rate);
     }
+
+    [Fact]
+    public async Task Should_Not_Update_Different_Currency()
+    {
+        ConfigureFactory();
+        MigrateUp();
+
+        var service = Factory.Services.GetRequiredService<IBackgroundService>();
+        var dataContext = Factory.Services.GetRequiredService<BackgroundDataContext>();
+        await dataContext.Currencies.DeleteAsync();
+        
+        await dataContext.Currencies.InsertAsync(() => new Currency
+        {
+            Name = "RUB",
+            Rate = 2
+        });
+
+        await service.ProcessNewRecords([("TEST", 3d)], default);
+
+        var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "RUB");
+        Assert.NotNull(record);
+        Assert.Equal(2m, record.Rate);
+    }
 }

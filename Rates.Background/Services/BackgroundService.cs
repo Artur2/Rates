@@ -53,9 +53,9 @@ public class BackgroundService(BackgroundDataContext backgroundDataContext) : IB
         return items.ToArray();
     }
 
-    public async Task ProcessNewRecords(CbrEntry[] records, CancellationToken token)
+    public async Task ProcessNewRecords(CbrEntry[] records, CancellationToken cancellationToken)
     {
-        token.ThrowIfCancellationRequested();
+        cancellationToken.ThrowIfCancellationRequested();
         var itemsAsQueryable = records.AsQueryable(backgroundDataContext);
 
         await backgroundDataContext.Currencies.LeftJoin(itemsAsQueryable,
@@ -63,6 +63,6 @@ public class BackgroundService(BackgroundDataContext backgroundDataContext) : IB
                 (currency, newData) => new { currency, newData })
             .AsUpdatable()
             .Set(x => x.currency.Rate, p => (decimal)p.newData.Amount)
-            .UpdateAsync(token);
+            .UpdateAsync(cancellationToken);
     }
 }

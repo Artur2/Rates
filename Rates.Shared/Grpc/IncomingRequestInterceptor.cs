@@ -19,28 +19,30 @@ public class IncomingRequestInterceptor(ITokenService tokenService) : Intercepto
 
         if (context.RequestHeaders?.Get(ITokenService.TokenKey) == null)
         {
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Unauthenticated"));
+            throw CreateException(StatusCode.Unauthenticated, "Unauthenticated");
         }
 
         var token = context.RequestHeaders.Get(ITokenService.TokenKey);
         if (token == null)
         {
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Unauthenticated"));
+            throw CreateException(StatusCode.Unauthenticated, "Unauthenticated");
         }
 
         var isValidToken = await tokenService.IsValidToken(token.Value);
         if (!isValidToken)
         {
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Unauthenticated"));
+            throw CreateException(StatusCode.Unauthenticated, "Unauthenticated");
         }
 
         var handler = new JwtSecurityTokenHandler();
         var deserializedToken = handler.ReadJwtToken(token.Value);
         if (await tokenService.IsRevoked(deserializedToken.Payload.Jti))
         {
-            throw new RpcException(new Status(StatusCode.Unauthenticated, "Revoked"));
+            throw CreateException(StatusCode.Unauthenticated, "Revoked");
         }
 
         return await base.UnaryServerHandler(request, context, continuation);
     }
+
+    private RpcException CreateException(StatusCode statusCode, string message) => new(new Status(statusCode, message));
 }

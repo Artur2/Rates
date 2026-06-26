@@ -1,8 +1,4 @@
-using System.Globalization;
-using System.Xml;
-using LinqToDB;
 using Quartz;
-using Rates.Background.Data;
 using Rates.Background.Services;
 
 namespace Rates.Background.Jobs;

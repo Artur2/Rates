@@ -1,10 +1,8 @@
 using Bogus;
 using FluentMigrator.Runner;
 using Grpc.Net.Client;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Rates.Migration.Shared;
 using Xunit;
 
 namespace Rates.Users.Tests;
@@ -15,7 +13,7 @@ public class TestClassBase(WebApplicationFactory<Startup> factory) : IClassFixtu
 
     public WebApplicationFactory<Startup> Factory => _factory;
     
-    public Faker Faker = new Faker();
+    public Faker Faker = new();
 
     protected void ConfigureFactory(Action<IServiceCollection>? configure = null)
     {

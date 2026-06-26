@@ -1,11 +1,9 @@
 using Bogus;
 using FluentMigrator.Runner;
 using Grpc.Net.Client;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Rates.Currency;
-using Rates.Migration.Shared;
 using Xunit;
 
 namespace Rates.Users.Tests;

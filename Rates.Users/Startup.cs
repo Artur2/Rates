@@ -1,7 +1,3 @@
-using FluentMigrator.Runner;
-using LinqToDB.Data;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
-using Rates.Migration.Shared;
 using Rates.Shared;
 using Rates.Shared.Data;
 using Rates.Shared.Extensions;

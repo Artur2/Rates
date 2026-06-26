@@ -1,7 +1,4 @@
-using FluentMigrator.Runner;
-using LinqToDB.Data;
 using Rates.Currency.Data;
-using Rates.Migration.Shared;
 using Rates.Shared;
 using Rates.Shared.Data;
 using Rates.Shared.Extensions;

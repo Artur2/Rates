@@ -1,4 +1,3 @@
-using Grpc.Net.ClientFactory;
 using Rates.Currency;
 using Rates.Gateway.Configuration;
 using Rates.Gateway.Grpc;

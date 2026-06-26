@@ -1,6 +1,5 @@
 using LinqToDB;
 using Microsoft.Extensions.Configuration;
-using Rates.Shared.Extensions;
 
 namespace Rates.Shared.Data;
 

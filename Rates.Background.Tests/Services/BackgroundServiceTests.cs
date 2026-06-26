@@ -27,7 +27,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 2
         });
 
-        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], default);
+        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], CancellationToken.None);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "TEST");
         Assert.NotNull(record);

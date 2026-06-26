@@ -6,7 +6,7 @@ using Rates.Background.Models;
 
 namespace Rates.Background.Services;
 
-public class BackgroundService(BackgroundDataContext backgroundDataContext) : IBackgroundService
+public record BackgroundService(BackgroundDataContext BackgroundDataContext) : IBackgroundService
 {
     public async Task<CbrEntry[]> ParseCbrRecords(Stream stream, CancellationToken cancellationToken)
     {
@@ -56,9 +56,9 @@ public class BackgroundService(BackgroundDataContext backgroundDataContext) : IB
     public async Task ProcessNewRecords(CbrEntry[] records, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var itemsAsQueryable = records.AsQueryable(backgroundDataContext);
+        var itemsAsQueryable = records.AsQueryable(BackgroundDataContext);
 
-        await backgroundDataContext.Currencies.LeftJoin(itemsAsQueryable,
+        await BackgroundDataContext.Currencies.LeftJoin(itemsAsQueryable,
                 (currency, newData) => currency.Name == newData.Code,
                 (currency, newData) => new { currency, newData })
             .AsUpdatable()

@@ -50,7 +50,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 2
         });
 
-        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], default);
+        await service.ProcessNewRecords([new CbrEntry("TEST", 3d)], CancellationToken.None);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "RUB");
         Assert.NotNull(record);
@@ -79,7 +79,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
             Rate = 20
         });
 
-        await service.ProcessNewRecords([new CbrEntry("USD", 30d)], default);
+        await service.ProcessNewRecords([new CbrEntry("USD", 30d)], CancellationToken.None);
 
         var record = await dataContext.Currencies.SingleOrDefaultAsync(x => x.Name == "USD");
         Assert.NotNull(record);
@@ -95,7 +95,7 @@ public class BackgroundServiceTests(WebApplicationFactory<Startup> factory) : Te
         MigrateUp();
 
         var service = Factory.Services.GetRequiredService<IBackgroundService>();
-        var items = await service.ParseCbrRecords(fs, default);
+        var items = await service.ParseCbrRecords(fs, CancellationToken.None);
         Assert.NotNull(items);
         Assert.Equal(2, items.Length);
     }

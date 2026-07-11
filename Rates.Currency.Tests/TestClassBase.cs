@@ -3,10 +3,9 @@ using FluentMigrator.Runner;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Rates.Currency;
 using Xunit;
 
-namespace Rates.Users.Tests;
+namespace Rates.Currency.Tests;
 
 public class TestClassBase(WebApplicationFactory<Startup> factory) : IClassFixture<WebApplicationFactory<Startup>>
 {

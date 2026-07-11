@@ -2,12 +2,11 @@ using Grpc.Core;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Rates.Currency;
 using Rates.Currency.Data;
 using Rates.Shared.Services;
 using Xunit;
 
-namespace Rates.Users.Tests.Grpc;
+namespace Rates.Currency.Tests.Grpc;
 
 public class CurrencyServiceTests(WebApplicationFactory<Startup> factory) : TestClassBase(factory)
 {
